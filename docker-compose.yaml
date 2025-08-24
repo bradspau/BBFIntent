@@ -1,0 +1,25 @@
+services:
+    tmf921v5:
+        build: .
+        image: ghcr.io/tmforum-rand/ri_docker_images/ri921-ghcr:latest
+        ports:
+        - 8921:8921
+        stdin_open: true
+        tty: true
+        depends_on:
+        - mongo
+        external_links:
+        - mongo
+        environment:
+            DB_URL: mongodb://mongo:27071
+    mongo:
+        image: mongo:4.4.6
+        ports:
+        - 27017:27017
+        restart: unless-stopped
+        volumes:
+        - ctk_data:/data/db
+        #image: "629"        
+version: '3.9'
+volumes:
+    ctk_data: {}
